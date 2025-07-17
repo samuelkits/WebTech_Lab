@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How the Internet Works</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background-color: #005f73;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+    nav {
+      background-color: #0a9396;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    section {
+      padding: 2rem;
+      max-width: 900px;
+      margin: auto;
+    }
+    section h2 {
+      color: #005f73;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #94d2bd;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>How the Internet Works</h1>
+    <p>DNS</p>
+  </header>
+
+  <nav>
+    
+  </nav>
+
+  <section id="intro">
+    <h2>DNS</h2>
+    <p>A Domain Name System (DNS) is a critical component of the Internet infrastructure that plays a fundamental role in connecting users to websites, services, and resources across the World Wide Web. It is essentially the "phone book" of the internet, translating user-friendly domain names (like www.example.com) into numerical IP addresses (such as 192.0.2.1) that computers and network devices use to locate one another on the internet.</p>
+    <H>History of DNS</H>
+    <p>The development of the DNS can be traced back to the early days of the internet, when it was a relatively small and tightly connected network called ARPANET. In the early 1980s, ARPANET introduced a centrally managed file called the "hosts.txt" file that mapped hostnames to IP addresses. As the internet grew rapidly, this approach became unmanageable. In 1983, Paul Mockapetris and Jon Postel introduced the DNS as we know it today through RFC 882 and RFC 883, providing a distributed and hierarchical system for domain name resolution. This innovation paved the way for the scalable and efficient DNS architecture that underpins the modern internet.</p>
+    <H>Different Types of DNS Servers<H>
+    <p>The DNS (Domain Name System) is organized hierarchically with a structured naming system to ensure that domain names are unique and globally resolvable. A domain name is a human-readable label that represents a specific location or resource on the internet, structured with levels separated by dots—for example, "www.example.com" includes the subdomain "www," the second-level domain "example," and the top-level domain (TLD) "com." TLDs represent the highest level in the DNS hierarchy and include generic domains like ".com," ".org," and ".net," as well as country-code TLDs such as ".uk" and ".jp." The assignment of TLDs is managed by the Internet Corporation for Assigned Names and Numbers (ICANN). Domain name registrars, accredited by ICANN, allow individuals and organizations to register and manage domain names within specific TLDs. Authoritative name servers store and manage DNS records for a specific domain, while recursive resolvers, usually operated by ISPs or third-party providers, receive DNS queries from users and resolve them by querying authoritative servers. At the top of the DNS hierarchy are 13 root name servers globally maintained by various organizations, which direct queries to the appropriate TLD name servers. Caching DNS servers, commonly used by ISPs, temporarily store recently resolved DNS records to speed up future queries and reduce server load. Forwarding DNS servers are configured to pass DNS queries to other DNS servers, often used within organizations to relay queries to their ISP. Lastly, load balancing DNS servers distribute incoming DNS queries across multiple IP addresses or server instances to enhance service availability and performance.</p>
+  </section>
+
+  <footer>
+    <p>&copy; BY_SAMUEL SAWYER J</p>
+  </footer>
+
+</body>
+</html>
