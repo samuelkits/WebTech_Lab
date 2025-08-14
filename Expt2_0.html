@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Academic Paper Submission Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #c1272d;
+      --primary-dark: #9e1f24;
+      --primary-light: #e74c3c;
+      --secondary: #d7b9b9;
+      --accent: #f8e8e8;
+      --text: #2c3e50;
+      --text-light: #7f8c8d;
+      --input-bg: #ffffff;
+      --gradient-start: #c1272d;
+      --gradient-end: #e74c3c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f9f2f2, #f5e6e6);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      line-height: 1.6;
+      animation: fadeIn 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    h1 {
+      color: var(--primary);
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      position: relative;
+      display: inline-block;
+      animation: slideInDown 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+      border-radius: 2px;
+    }
+
+    @keyframes slideInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .subtitle {
+      color: var(--text-light);
+      font-size: 1.1rem;
+      animation: fadeInUp 1s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    form {
+      background-color: var(--input-bg);
+      padding: 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(193, 39, 45, 0.08);
+      transform: translateY(30px);
+      opacity: 0;
+      animation: formEntrance 1s 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes formEntrance {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .form-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -2.5rem;
+      height: 100%;
+      width: 4px;
+      background: linear-gradient(to bottom, var(--gradient-start), var(--gradient-end));
+      border-radius: 2px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .form-section:hover::before {
+      opacity: 1;
+    }
+
+    h2 {
+      color: var(--primary);
+      font-size: 1.3rem;
+      margin-bottom: 1.2rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+    }
+
+    h2::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background-color: var(--primary);
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.6rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: color 0.3s ease;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 1rem;
+      border: 1px solid var(--secondary);
+      border-radius: 8px;
+      background-color: var(--input-bg);
+      font-size: 1rem;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(193, 39, 45, 0.2);
+      transform: translateY(-2px);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+      width: auto;
+      margin-right: 0.8rem;
+      transform: scale(1.2);
+    }
+
+    .radio-group,
+    .checkbox-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .radio-group label,
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.8rem;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .radio-group label:hover,
+    .checkbox-group label:hover {
+      transform: translateX(5px);
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    button, input[type="submit"], input[type="reset"] {
+      flex: 1;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 4px 6px rgba(193, 39, 45, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    button::before, input[type="submit"]::before, input[type="reset"]::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    button:hover, input[type="submit"]:hover, input[type="reset"]:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(193, 39, 45, 0.2);
+    }
+
+    button:hover::before, input[type="submit"]:hover::before, input[type="reset"]:hover::before {
+      left: 100%;
+    }
+
+    input[type="reset"] {
+      background: linear-gradient(135deg, #7f8c8d, #95a5a6);
+    }
+
+    input[type="reset"]:hover {
+      box-shadow: 0 6px 12px rgba(127, 140, 141, 0.2);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: var(--text-light);
+      font-size: 0.9rem;
+      animation: fadeIn 2s ease-in;
+    }
+
+    footer p {
+      margin-bottom: 0.5rem;
+    }
+
+    .required::after {
+      content: ' *';
+      color: var(--primary);
+    }
+
+    /* Floating label animation */
+    .floating-label {
+      position: relative;
+    }
+
+    .floating-label label {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      color: var(--text-light);
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .floating-label input:focus + label,
+    .floating-label input:not(:placeholder-shown) + label,
+    .floating-label textarea:focus + label,
+    .floating-label textarea:not(:placeholder-shown) + label {
+      top: -0.5rem;
+      left: 0.8rem;
+      font-size: 0.8rem;
+      background-color: var(--input-bg);
+      padding: 0 0.3rem;
+      color: var(--primary);
+    }
+
+    /* File input styling */
+    .file-input {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .file-input input[type="file"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .file-input-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      border: 2px dashed var(--secondary);
+      border-radius: 8px;
+      background-color: var(--accent);
+      color: var(--text-light);
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .file-input:hover .file-input-label {
+      border-color: var(--primary);
+      color: var(--primary);
+      background-color: rgba(193, 39, 45, 0.05);
+    }
+
+    .file-input-icon {
+      margin-right: 0.8rem;
+      font-size: 1.2rem;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1.5rem 1rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      form {
+        padding: 1.8rem;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+
+      .form-section::before {
+        left: -1.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .subtitle {
+        font-size: 1rem;
+      }
+
+      form {
+        padding: 1.5rem 1.2rem;
+      }
+
+      .form-section::before {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Academic Paper Submission</h1>
+      <p class="subtitle">Submit your research for peer review and publication</p>
+    </header>
+
+    <form action="submit.html" method="post" enctype="multipart/form-data">
+      <div class="form-section">
+        <h2>Author Information</h2>
+        
+        <div class="input-group floating-label">
+          <input type="text" id="author" name="author" placeholder=" " required>
+          <label for="author" class="required">Full Name</label>
+        </div>
+        
+        <div class="input-group floating-label">
+          <input type="password" id="password" name="password" placeholder=" " required>
+          <label for="password" class="required">Password</label>
+        </div>
+        
+        <div class="input-group floating-label">
+          <input type="email" id="email" name="email" placeholder=" " required>
+          <label for="email" class="required">Email Address</label>
+        </div>
+        
+        <div class="input-group floating-label">
+          <input type="tel" id="phone" name="phone" placeholder=" ">
+          <label for="phone">Phone Number</label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2>Paper Details</h2>
+        
+        <div class="input-group floating-label">
+          <input type="text" id="title" name="title" placeholder=" " required>
+          <label for="title" class="required">Paper Title</label>
+        </div>
+        
+        <div class="input-group floating-label">
+          <textarea id="abstract" name="abstract" placeholder=" " required></textarea>
+          <label for="abstract" class="required">Abstract</label>
+        </div>
+        
+        <div class="input-group floating-label">
+          <input type="text" id="keywords" name="keywords" placeholder=" " required>
+          <label for="keywords" class="required">Keywords (comma separated)</label>
+        </div>
+        
+        <div class="input-group">
+          <label for="category" class="required">Research Category</label>
+          <select id="category" name="category" required>
+            <option value="">-- Select Category --</option>
+            <option value="Computer Science">Computer Science</option>
+            <option value="Engineering">Engineering</option>
+            <option value="Biology">Life Sciences</option>
+            <option value="Mathematics">Mathematics</option>
+            <option value="Physics">Physics</option>
+            <option value="Social Sciences">Social Sciences</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2>Presentation Preferences</h2>
+        
+        <div class="radio-group">
+          <label class="required">Preferred Presentation Format:</label>
+          <label><input type="radio" name="presentation" value="oral" required> Oral Presentation</label>
+          <label><input type="radio" name="presentation" value="poster"> Poster Session</label>
+          <label><input type="radio" name="presentation" value="either"> Either Format</label>
+        </div>
+        
+        <div class="checkbox-group">
+          <label>Related Topics (select all that apply):</label>
+          <label><input type="checkbox" name="ai" value="AI"> Artificial Intelligence</label>
+          <label><input type="checkbox" name="ml" value="ML"> Machine Learning</label>
+          <label><input type="checkbox" name="iot" value="IoT"> Internet of Things</label>
+          <label><input type="checkbox" name="networks" value="Networks"> Computer Networks</label>
+          <label><input type="checkbox" name="data_science" value="Data Science"> Data Science</label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2>Upload Documents</h2>
+        
+        <div class="input-group">
+          <label for="file" class="required">Research Paper (PDF only)</label>
+          <div class="file-input">
+            <input type="file" id="file" name="file" accept=".pdf" required>
+            <label for="file" class="file-input-label">
+              <span class="file-input-icon">📄</span>
+              <span>Click to upload or drag and drop</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="input-group">
+          <label for="supplement">Supplementary Materials (ZIP, optional)</label>
+          <div class="file-input">
+            <input type="file" id="supplement" name="supplement" accept=".zip,.rar">
+            <label for="supplement" class="file-input-label">
+              <span class="file-input-icon">📦</span>
+              <span>Additional files (max 10MB)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <input type="submit" value="Submit Paper">
+        <input type="reset" value="Reset Form">
+      </div>
+    </form>
+
+    <footer>
+      <p>© Samuel Sawyer J | URK23CS1136</p>
+      <p>WebTech Lab</p>
+    </footer>
+  </div>
+
+  <script>
+    // Add animation to form sections as they come into view
+    const formSections = document.querySelectorAll('.form-section');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = "1";
+          entry.target.style.transform = "translateY(0)";
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+
+    formSections.forEach(section => {
+      section.style.opacity = "0";
+      section.style.transform = "translateY(20px)";
+      section.style.transition = "all 0.6s cubic-bezier(0.22, 1, 0.36, 1)";
+      observer.observe(section);
+    });
+
+    // Enhance file input display
+    document.querySelectorAll('input[type="file"]').forEach(input => {
+      input.addEventListener('change', function() {
+        const label = this.nextElementSibling;
+        if (this.files.length > 0) {
+          label.innerHTML = `<span class="file-input-icon">✓</span> <span>${this.files[0].name}</span>`;
+          label.style.color = "var(--primary)";
+          label.style.borderColor = "var(--primary)";
+        } else {
+          const icon = this.id === 'file' ? '📄' : '📦';
+          const text = this.id === 'file' ? 'Click to upload or drag and drop' : 'Additional files (max 10MB)';
+          label.innerHTML = `<span class="file-input-icon">${icon}</span> <span>${text}</span>`;
+          label.style.color = "";
+          label.style.borderColor = "";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

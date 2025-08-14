@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Research Paper Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #c1272d;
+      --primary-dark: #9e1f24;
+      --primary-light: #e74c3c;
+      --secondary: #d7b9b9;
+      --accent: #f8e8e8;
+      --text: #2c3e50;
+      --text-light: #7f8c8d;
+      --gradient-start: #c1272d;
+      --gradient-end: #e74c3c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f9f2f2, #f5e6e6);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+      animation: slideInDown 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes slideInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 0.8rem;
+      font-weight: 700;
+      position: relative;
+      display: inline-block;
+    }
+
+    header h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+      border-radius: 2px;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      color: var(--text-light);
+      max-width: 600px;
+      margin: 0 auto;
+      animation: fadeInUp 0.8s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background-color: white;
+      padding: 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(193, 39, 45, 0.08);
+      text-align: center;
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 2rem;
+      transform: translateY(30px);
+      opacity: 0;
+      animation: cardEntrance 0.8s 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    @keyframes cardEntrance {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card p {
+      margin-bottom: 2rem;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--text);
+    }
+
+    a.button {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 4px 6px rgba(193, 39, 45, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    a.button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    a.button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(193, 39, 45, 0.2);
+    }
+
+    a.button:hover::before {
+      left: 100%;
+    }
+
+    footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 2rem 0;
+      font-size: 0.9rem;
+      color: var(--text-light);
+      width: 100%;
+      animation: fadeIn 2s ease-in;
+    }
+
+    footer p {
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1.5rem 1rem;
+      }
+
+      header h1 {
+        font-size: 2rem;
+      }
+
+      .card {
+        padding: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      header p {
+        font-size: 1rem;
+      }
+
+      .card {
+        padding: 1.5rem 1.2rem;
+      }
+
+      a.button {
+        padding: 0.9rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Academic Research Portal</h1>
+      <p>Submit your research paper for peer review and track your submission progress</p>
+    </header>
+
+    <div class="card">
+      <p>Welcome to our academic submission system. Click the button below to begin your research paper submission process. Our platform supports scholars and researchers in sharing their work with the global academic community.</p>
+      <a href="Exp2NewDS.html" class="button">Begin Submission Process</a>
+    </div>
+
+    <footer>
+      <p>© Samuel Sawyer J | URK23CS1136</p>
+      <p>WebTech LAB</p>
+    </footer>
+  </div>
+</body>
+</html>
