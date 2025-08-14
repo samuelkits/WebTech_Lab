@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMEN - Premium Learning</title>
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background-color: #f9f5f0;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(183, 142, 131, 0.3);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-img {
+            height: 30px;
+            margin-right: 12px;
+        }
+        
+        .logo-text {
+            color: #e8b4b8;
+            font-size: 22px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            color: #f9f5f0;
+            text-decoration: none;
+            font-weight: 300;
+            letter-spacing: 1px;
+            font-size: 14px;
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: #e8b4b8;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            width: 50%;
+            z-index: 2;
+        }
+        
+        .hero-title {
+            font-size: 48px;
+            font-weight: 300;
+            color: #000;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero-title span {
+            color: #e8b4b8;
+            font-weight: 400;
+        }
+        
+        .hero-text {
+            color: #555;
+            margin-bottom: 40px;
+            font-weight: 300;
+            max-width: 500px;
+        }
+        
+        /* Login Form */
+        .login-container {
+            position: absolute;
+            right: 10%;
+            background-color: #fff;
+            padding: 40px;
+            width: 380px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .login-title {
+            font-size: 24px;
+            font-weight: 300;
+            color: #000;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .login-title:after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 1px;
+            background-color: #e8b4b8;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 12px 0;
+            border: none;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
+            color: #333;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-bottom-color: #e8b4b8;
+        }
+        
+        .input-group label {
+            position: absolute;
+            top: 12px;
+            left: 0;
+            color: #999;
+            font-size: 14px;
+            font-weight: 300;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus + label,
+        .input-group input:valid + label {
+            top: -15px;
+            font-size: 12px;
+            color: #e8b4b8;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .login-btn:hover {
+            background-color: #e8b4b8;
+            color: #000;
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #999;
+        }
+        
+        .form-footer a {
+            color: #e8b4b8;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .form-footer a:hover {
+            color: #000;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 100px 10%;
+            background-color: #fff;
+        }
+        
+        .section-title {
+            font-size: 32px;
+            font-weight: 300;
+            color: #000;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title span {
+            color: #e8b4b8;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 40px 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: #e8b4b8;
+            margin-bottom: 20px;
+        }
+        
+        .feature-title {
+            font-size: 18px;
+            font-weight: 400;
+            color: #000;
+            margin-bottom: 15px;
+        }
+        
+        .feature-text {
+            font-size: 14px;
+            color: #777;
+            font-weight: 300;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: #000;
+            color: #f9f5f0;
+            padding: 50px 10%;
+            text-align: center;
+            font-weight: 300;
+            font-size: 14px;
+        }
+        
+        .footer-logo {
+            color: #e8b4b8;
+            font-size: 22px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin: 20px 0;
+        }
+        
+        .footer-links li {
+            margin: 0 15px;
+        }
+        
+        .footer-links a {
+            color: #f9f5f0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #e8b4b8;
+        }
+        
+        .copyright {
+            margin-top: 30px;
+            color: #999;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="https://samuelkits.github.io/Pic/Picture2 (1)(1).png" alt="LUMEN Logo" class="logo-img">
+            <div class="logo-text">LUMEN</div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Courses</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Elevate your <span>learning</span> experience</h1>
+            <p class="hero-text">Our premium platform combines elegant design with powerful educational tools to transform how you learn.</p>
+        </div>
+        
+        <!-- Login Form -->
+        <div class="login-container">
+            <h2 class="login-title">Member Access</h2>
+            <form>
+                <div class="input-group">
+                    <input type="text" id="username" required>
+                    <label for="username">Email Address</label>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" required>
+                    <label for="password">Password</label>
+                </div>
+                <button type="submit" class="login-btn">CONTINUE</button>
+                <div class="form-footer">
+                    New to LUMEN? <a href="#">Create account</a><br>
+                    <a href="#">Forgot password?</a>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2 class="section-title">Why choose <span>LUMEN</span></h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="far fa-gem"></i>
+                </div>
+                <h3 class="feature-title">Premium Content</h3>
+                <p class="feature-text">Access exclusive courses crafted by industry leaders and academic experts.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="far fa-clock"></i>
+                </div>
+                <h3 class="feature-title">Flexible Learning</h3>
+                <p class="feature-text">Learn at your own pace with 24/7 access to all course materials.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="far fa-user"></i>
+                </div>
+                <h3 class="feature-title">Personalized</h3>
+                <p class="feature-text">Custom learning paths tailored to your goals and skill level.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">LUMEN</div>
+        <ul class="footer-links">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Courses</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Privacy</a></li>
+        </ul>
+        <div class="copyright">
+            &copy; Samuel Sawyer J | URK23CS1136 | WebTech Lab
+        </div>
+    </footer>
+</body>
+</html>
