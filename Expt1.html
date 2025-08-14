@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How the Internet Works</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0a2463;
+      --secondary: #3e92cc;
+      --accent: #d7f3ff;
+      --text: #1a1a2e;
+      --heading: #0d1b2a;
+      --card-bg: #ffffff;
+      --hover-bg: #f8fcff;
+      --gradient-start: #1a2a6c;
+      --gradient-end: #3a7bd5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--accent);
+      color: var(--text);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    /* Hero Section Covering Full Viewport */
+    .hero {
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      color: white;
+      position: relative;
+      overflow: hidden;
+      padding: 0 2rem;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 75% 30%, rgba(255,255,255,0.1) 0%, transparent 30%);
+      animation: pulse 15s infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.1; }
+      100% { transform: scale(1.2); opacity: 0.2; }
+    }
+
+    .hero-content {
+      max-width: 800px;
+      position: relative;
+      z-index: 2;
+      transform: translateY(20px);
+      opacity: 0;
+      animation: fadeInUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      opacity: 0.9;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+      40% { transform: translateY(-20px) translateX(-50%); }
+      60% { transform: translateY(-10px) translateX(-50%); }
+    }
+
+    .scroll-indicator svg {
+      width: 30px;
+      height: 30px;
+      fill: white;
+    }
+
+    /* Content Sections with Scroll Reveal */
+    .content-wrapper {
+      position: relative;
+      z-index: 10;
+      background-color: var(--accent);
+      padding-bottom: 3rem;
+    }
+
+    nav {
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 1.2rem;
+      gap: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(5px);
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    nav a {
+      background: linear-gradient(135deg, var(--secondary), #2a7fbb);
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    nav a:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    section {
+      max-width: 1000px;
+      margin: 0 auto 3rem;
+      padding: 2.5rem 2.5rem;
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      transform: translateY(50px);
+      opacity: 0;
+      transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    section.visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    section h2 {
+      font-size: 1.9rem;
+      margin-bottom: 1.5rem;
+      color: var(--heading);
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+
+    section h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--secondary), var(--primary));
+      border-radius: 2px;
+    }
+
+    /* Other styles remain the same as previous version */
+    section h3 {
+      margin-top: 2rem;
+      font-size: 1.3rem;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    section p {
+      font-size: 1.06rem;
+      color: var(--text);
+      margin-bottom: 1rem;
+      line-height: 1.7;
+    }
+
+    code {
+      background-color: #e6f0ff;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+      color: #d6336c;
+    }
+
+    footer {
+      text-align: center;
+      padding: 3rem 1rem;
+      font-size: 0.95rem;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      color: white;
+      position: relative;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      border: 1px solid #e0e6ed;
+      padding: 14px;
+      text-align: left;
+    }
+
+    th {
+      background-color: var(--secondary);
+      color: white;
+      font-weight: 500;
+    }
+
+    tr:nth-child(even) {
+      background-color: var(--hover-bg);
+    }
+
+    ul, ol {
+      margin: 1.5rem 0 1.5rem 2rem;
+    }
+
+    li {
+      margin-bottom: 0.6rem;
+      position: relative;
+    }
+
+    ul li::before {
+      content: '•';
+      color: var(--secondary);
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+
+    dt {
+      font-weight: 600;
+      margin-top: 1.2rem;
+      color: var(--primary);
+    }
+
+    dd {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .highlight {
+      background: linear-gradient(120deg, rgba(62,146,204,0.2) 0%, rgba(62,146,204,0) 100%);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.4rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      section {
+        padding: 2rem 1.5rem;
+        margin: 0 1rem 2rem;
+      }
+      
+      nav {
+        padding: 1rem;
+        gap: 0.8rem;
+      }
+      
+      nav a {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      section h2 {
+        font-size: 1.6rem;
+      }
+      
+      section h3 {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <div class="hero-content">
+      <h1>How the Internet Works</h1>
+      <p>Understanding the fundamental technologies that power the modern web</p>
+    </div>
+    <div class="scroll-indicator">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="content-wrapper">
+    <nav>
+      <a href="#overview">Overview</a>
+      <a href="#protocols">Protocols</a>
+      <a href="#infrastructure">Infrastructure</a>
+      <a href="#security">Security</a>
+      <a href="#future">Future Trends</a>
+    </nav>
+
+    <main>
+      <section id="overview">
+        <h2>Internet Overview</h2>
+        <p>The internet is a global network of interconnected computers that communicate through standardized protocols. It has revolutionized how we access information, communicate, and conduct business.</p>
+        
+        <h3>Key Components</h3>
+        <ul>
+          <li><span class="highlight">Clients and Servers</span> - Devices that request and provide resources</li>
+          <li><span class="highlight">IP Addresses</span> - Unique identifiers for network devices</li>
+          <li><span class="highlight">Routers and Switches</span> - Devices that direct traffic between networks</li>
+          <li><span class="highlight">DNS</span> - The phone book of the internet that translates domains to IPs</li>
+        </ul>
+      </section>
+
+      <section id="protocols">
+        <h2>Internet Protocols</h2>
+        <p>Protocols are sets of rules that govern how data is transmitted across networks. The internet primarily uses the TCP/IP protocol suite.</p>
+        
+        <table>
+          <thead>
+            <tr>
+              <th>Protocol</th>
+              <th>Layer</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>HTTP/HTTPS</td>
+              <td>Application</td>
+              <td>Web page transfer</td>
+            </tr>
+            <tr>
+              <td>TCP</td>
+              <td>Transport</td>
+              <td>Reliable data delivery</td>
+            </tr>
+            <tr>
+              <td>IP</td>
+              <td>Network</td>
+              <td>Addressing and routing</td>
+            </tr>
+            <tr>
+              <td>Ethernet</td>
+              <td>Link</td>
+              <td>Physical data transmission</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="infrastructure">
+        <h2>Physical Infrastructure</h2>
+        <p>The internet's physical backbone consists of undersea cables, data centers, and network access points that span the globe.</p>
+        
+        <h3>Data Transmission</h3>
+        <p>Data travels across networks in packets, which are small chunks of information that routers direct to their destination. Fiber optic cables transmit data as pulses of light, enabling high-speed communication across continents.</p>
+      </section>
+
+      <section id="security">
+        <h2>Internet Security</h2>
+        <p>As the internet has grown, so have security challenges. Modern web security employs multiple layers of protection.</p>
+        
+        <h3>Common Security Measures</h3>
+        <dl>
+          <dt>Encryption (SSL/TLS)</dt>
+          <dd>Scrambles data to prevent eavesdropping</dd>
+          
+          <dt>Firewalls</dt>
+          <dd>Network security systems that monitor incoming/outgoing traffic</dd>
+          
+          <dt>VPNs</dt>
+          <dd>Create secure, encrypted tunnels for remote access</dd>
+        </dl>
+      </section>
+
+      <section id="future">
+        <h2>Future of the Internet</h2>
+        <p>Emerging technologies continue to shape the internet's evolution, promising faster speeds, greater reliability, and new capabilities.</p>
+        
+        <h3>Emerging Technologies</h3>
+        <ol>
+          <li><strong>5G Networks</strong> - Ultra-fast wireless connectivity</li>
+          <li><strong>IPv6</strong> - Expanded address space for more devices</li>
+          <li><strong>Quantum Networking</strong> - Potentially unhackable communication</li>
+          <li><strong>Edge Computing</strong> - Processing data closer to its source</li>
+        </ol>
+      </section>
+    </main>
+
+    <footer>
+      <p>© Samuel Sawyer J | URK23CS1136</p>
+      <p>WebTech Lab</p>
+    </footer>
+  </div>
+
+  <script>
+    // Scroll reveal animation
+    const sections = document.querySelectorAll('section');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    });
+
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+
+    // Smooth scroll for navigation
+    document.querySelectorAll('nav a').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        window.scrollTo({
+          top: targetElement.offsetTop - 80,
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
