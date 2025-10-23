@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Budget Calculator</title>
+  <meta name="color-scheme" content="dark light">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    :root {
+      --bg: #111;
+      --fg: #fff;
+      --accent: #222;
+      --input-bg: #222;
+      --input-fg: #fff;
+      --border: #444;
+      --btn-bg: #fff;
+      --btn-fg: #111;
+      --btn-hover: #ddd;
+      --error: #e50914;
+    }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Inter', Arial, Helvetica, sans-serif;
+      margin: 0; min-height: 100vh; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .calculator {
+      background: var(--accent);
+      box-shadow: 0 2px 24px rgba(0,0,0,0.35);
+      border-radius: 16px;
+      padding: 40px 36px;
+      width: 340px;
+      max-width: 90vw;
+    }
+    h2 { margin: 0 0 32px; font-size: 2em; letter-spacing: 2px; }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1em;
+      color: var(--fg);
+    }
+    input[type="number"] {
+      width: 90%;
+      padding: 10px;
+      background: var(--input-bg);
+      color: var(--input-fg);
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 1em;
+      margin-bottom: 18px;
+      transition: border 0.15s;
+    }
+    input[type="number"]:focus {
+      border-color: var(--fg);
+      outline: none;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      background: var(--btn-bg);
+      color: var(--btn-fg);
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      font-weight: 600;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover, button:focus {
+      background: var(--btn-hover);
+      color: var(--btn-fg);
+    }
+    .result {
+      margin-top: 28px;
+    }
+    .result p {
+      font-size: 1.03em;
+      padding: 5px 0;
+      margin: 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .error {
+      color: var(--error);
+      font-weight: 600;
+      padding: 6px 0 0 0;
+      font-size: 1em;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <form class="calculator" autocomplete="off" onsubmit="return false;">
+    <h2>Budget Calculator</h2>
+    <label for="amount">Total Amount</label>
+    <input id="amount" type="number" min="0" step="0.01" autocomplete="off">
+
+    <label for="room">Room Rent (%)</label>
+    <input id="room" type="number" min="0" max="100" autocomplete="off">
+
+    <label for="accessories">Accessories (%)</label>
+    <input id="accessories" type="number" min="0" max="100" autocomplete="off">
+
+    <label for="emergency">Emergency (%)</label>
+    <input id="emergency" type="number" min="0" max="100" autocomplete="off">
+
+    <label for="saving">Saving (%)</label>
+    <input id="saving" type="number" min="0" max="100" autocomplete="off">
+
+    <button id="evaluate" type="button">Evaluate My Money</button>
+    <div class="error" id="errorMsg"></div>
+    <div class="result" id="results" style="display:none;">
+      <p>Room Rent: <span id="room_val"></span></p>
+      <p>Accessories: <span id="accessories_val"></span></p>
+      <p>Emergency: <span id="emergency_val"></span></p>
+      <p>Saving: <span id="saving_val"></span></p>
+    </div>
+  </form>
+
+  <script>
+    $('#evaluate').click(function() {
+      // Fetch values and parse them
+      var amount = parseFloat($('#amount').val());
+      var room = parseFloat($('#room').val());
+      var accessories = parseFloat($('#accessories').val());
+      var emergency = parseFloat($('#emergency').val());
+      var saving = parseFloat($('#saving').val());
+      var error = '';
+
+      // Validate user input
+      if ([amount, room, accessories, emergency, saving].some(isNaN)) {
+        error = 'Please enter all fields.';
+      } else if (room < 0 || accessories < 0 || emergency < 0 || saving < 0) {
+        error = 'Percentages must not be negative.';
+      } else if ((room + accessories + emergency + saving) !== 100) {
+        error = 'The percentages must add up to 100.';
+      }
+
+      if (error) {
+        $('#errorMsg').text(error);
+        $('#results').hide();
+        return;
+      }
+
+      // Calculate allocations
+      var roomVal = (amount * room / 100).toFixed(2);
+      var accessoriesVal = (amount * accessories / 100).toFixed(2);
+      var emergencyVal = (amount * emergency / 100).toFixed(2);
+      var savingVal = (amount * saving / 100).toFixed(2);
+      
+      // Division check
+      var sum = parseFloat(roomVal) + parseFloat(accessoriesVal) + parseFloat(emergencyVal) + parseFloat(savingVal);
+      if (Math.abs(sum - amount) > 0.01) {
+        $('#errorMsg').text('Amount cannot be divided exactly by the given percentages.');
+        $('#results').hide();
+        return;
+      }
+
+      // Display the results
+      $('#errorMsg').text('');
+      $('#room_val').text(roomVal);
+      $('#accessories_val').text(accessoriesVal);
+      $('#emergency_val').text(emergencyVal);
+      $('#saving_val').text(savingVal);
+      $('#results').show();
+    });
+  </script>
+</body>
+</html>
